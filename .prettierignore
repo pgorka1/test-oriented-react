@@ -1,0 +1,8 @@
+# concrete
+**/*.yaml
+**/*.log
+**/*.d.ts
+
+node_modules
+build
+coverage
