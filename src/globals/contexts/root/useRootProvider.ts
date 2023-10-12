@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { ServicesContext } from './RootServicesProvider';
-import type { GlobalStore } from './models/GlobalStore';
+import { ServicesContext } from './RootSourcesProvider';
+import type { GlobalStore } from '../../models/GlobalStore';
 
 export function useRootProvider<DomainName extends keyof GlobalStore>(domainName: DomainName): GlobalStore[DomainName] {
     const contextValue = useContext(ServicesContext);

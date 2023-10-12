@@ -1,3 +1,4 @@
+// extract to files
 export interface Pokemon {
     name: string;
     base_experience: number;
@@ -10,7 +11,7 @@ export interface PokemonResult {
 
 export interface PokemonPage {
     count: number;
-    next: string | null
-    previous: string | null
-    results: PokemonResult[]
+    next: string | null;
+    previous: string | null;
+    results: PokemonResult[];
 }

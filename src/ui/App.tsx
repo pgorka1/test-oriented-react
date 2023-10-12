@@ -1,15 +1,15 @@
 import React from 'react';
 import { PokemonView } from './pokemons/views/PokemonView';
-import { RootServicesProvider } from '../globals/RootServicesProvider';
-import { NotificationsProvider } from '../globals/NotificationsProvider';
+import { RootSourcesProvider } from '../globals/contexts/root/RootSourcesProvider';
+import { NotificationsProvider } from '../globals/contexts/notifications/NotificationsProvider';
 
 function App() {
     return (
         <NotificationsProvider>
             {/*TODO: change name*/}
-            <RootServicesProvider>
+            <RootSourcesProvider>
                 <PokemonView />
-            </RootServicesProvider>
+            </RootSourcesProvider>
         </NotificationsProvider>
     );
 }

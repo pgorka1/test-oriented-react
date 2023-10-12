@@ -1,34 +1,30 @@
-import { Service } from '../models/Service';
 import type { PokemonsRepository } from './repository';
-import { PokemonsSelectorImpl, PokemonsSelector, PokemonsStore } from '../PokemonsSelector';
-import type { PokemonsInteractor } from '../PokemonsInteractor';
-import { PokemonsInteractorImpl } from '../PokemonsInteractor';
+import { PokemonsSelectorImpl } from './selector';
+import type { PokemonsSelector, PokemonsStore } from './selector';
+import { BaseProvider } from '../models/BaseProvider';
+import type { PokemonsInteractor } from './interactor';
+import { PokemonsInteractorImpl } from './interactor';
+import type { Provider } from '../models/Provider';
 
-export interface Provider<S, I> {
-    get selector(): S;
-
-    get interactor(): I;
-}
-
-export class PokemonsProvider<R extends PokemonsRepository = PokemonsRepository, S extends PokemonsStore = PokemonsStore>
-    extends Service<R, S>
-    implements Provider<PokemonsSelector, PokemonsInteractor>
+export class PokemonsProvider<
+        SE extends PokemonsSelector = PokemonsSelector,
+        IN extends PokemonsInteractor = PokemonsInteractor,
+        R extends PokemonsRepository = PokemonsRepository,
+        S extends PokemonsStore = PokemonsStore,
+    >
+    extends BaseProvider<SE, IN>
+    implements Provider<SE, IN>
 {
     constructor(pokemonsRepository: R, pokemonsStore: S) {
-        // TODO: change to super(pokemonsSelector, pokemonsinteractor)
-        super(pokemonsRepository, pokemonsStore);
-        this.pokemonsSelector = new PokemonsSelectorImpl(pokemonsStore);
-        this.pokemonsInteractor = new PokemonsInteractorImpl(pokemonsRepository, pokemonsStore);
+        // @ts-ignore-next-line (ignoring error about different subtypes constraints)
+        super(new PokemonsSelectorImpl(pokemonsStore), new PokemonsInteractorImpl(pokemonsRepository, pokemonsStore));
     }
 
-    private readonly pokemonsSelector: PokemonsSelector;
-    private readonly pokemonsInteractor: PokemonsInteractor;
-
-    get interactor(): PokemonsInteractor {
-        return this.pokemonsInteractor;
+    get selector(): SE {
+        return this.storeSelector;
     }
 
-    get selector(): PokemonsSelector {
-        return this.pokemonsSelector;
+    get interactor(): IN {
+        return this.storeInteractor;
     }
 }
