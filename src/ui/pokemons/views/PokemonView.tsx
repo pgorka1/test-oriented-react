@@ -4,7 +4,6 @@ import { useRootProvider } from '../../../globals/contexts/root/useRootProvider'
 import { useNotifications } from '../../../globals/contexts/notifications/useNotifications';
 import { observer } from 'mobx-react-lite';
 import { PokemonsViewController } from '../PokemonsViewController';
-import { toJS } from 'mobx';
 
 export const PokemonView = observer((): JSX.Element => {
     const pokemonsProvider = useRootProvider('pokemons');
@@ -19,7 +18,6 @@ export const PokemonView = observer((): JSX.Element => {
     }, []);
 
     const page = controller.state.page;
-    console.log(page, toJS(pokemonsProvider.selector.byPage(page)));
     return (
         <>
             {pokemonsProvider.selector.byPage(page).map(pokemon => (

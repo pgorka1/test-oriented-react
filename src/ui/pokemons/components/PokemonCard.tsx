@@ -1,4 +1,4 @@
-import type { PokemonResult } from '../../../globals/pokemons/models/Pokemon';
+import type { PokemonResult } from '../../../globals/domains/pokemons/models/Pokemon';
 
 type Props = PokemonResult;
 

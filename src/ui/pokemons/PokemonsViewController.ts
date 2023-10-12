@@ -1,5 +1,5 @@
-import type { PokemonsProvider } from '../../globals/pokemons/provider';
-import { MobxStore } from '../../globals/pokemons/store';
+import type { PokemonsProvider } from '../../globals/domains/pokemons/provider';
+import { MobxStore } from '../../globals/domains/pokemons/store';
 import { ViewController } from '../../globals/models/ViewController';
 
 interface PokemonsViewState {

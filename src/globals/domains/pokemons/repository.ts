@@ -1,7 +1,7 @@
 import type { Pokemon, PokemonPage } from './models/Pokemon';
-import { Repository } from '../models/Repository';
+import { Repository } from '../../models/Repository';
 import axios from 'axios';
-import { ApiError } from '../models/helpers/ApiError';
+import { ApiError } from '../../models/helpers/ApiError';
 
 export interface PokemonsRepository {
     fetchPokemon(pokemonName: string): Promise<Pokemon>;

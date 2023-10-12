@@ -6,7 +6,6 @@ import { NotificationsProvider } from '../globals/contexts/notifications/Notific
 function App() {
     return (
         <NotificationsProvider>
-            {/*TODO: change name*/}
             <RootSourcesProvider>
                 <PokemonView />
             </RootSourcesProvider>

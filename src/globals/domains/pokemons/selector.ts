@@ -1,6 +1,6 @@
 import type { PokemonResult } from './models/Pokemon';
-import { BaseSelector } from '../models/BaseSelector';
-import { POKEMON_LIST_PAGE_SIZE } from '../../ui/config';
+import { BaseSelector } from '../../models/BaseSelector';
+import { POKEMON_LIST_PAGE_SIZE } from '../../../ui/config';
 import type { PokemonsStore } from './models/PokemonsStore';
 
 export interface PokemonsSelector {

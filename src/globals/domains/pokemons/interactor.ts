@@ -1,7 +1,7 @@
 import type { PokemonResult } from './models/Pokemon';
 import type { PokemonsRepository } from './repository';
-import { POKEMON_LIST_PAGE_SIZE } from '../../ui/config';
-import { BaseInteractor } from '../models/BaseInteractor';
+import { POKEMON_LIST_PAGE_SIZE } from '../../../ui/config';
+import { BaseInteractor } from '../../models/BaseInteractor';
 import type { PokemonsStore } from './models/PokemonsStore';
 
 export interface PokemonsInteractor {

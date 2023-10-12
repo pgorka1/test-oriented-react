@@ -1,8 +1,8 @@
 import React, { createContext } from 'react';
-import { PokemonsProvider } from '../../pokemons/provider';
-import { ApiPokemonRepository } from '../../pokemons/repository';
+import { PokemonsProvider } from '../../domains/pokemons/provider';
+import { ApiPokemonRepository } from '../../domains/pokemons/repository';
 import type { GlobalStore } from '../../models/GlobalStore';
-import { MobxStore } from '../../pokemons/store';
+import { MobxStore } from '../../domains/pokemons/store';
 
 export const ServicesContext = createContext<GlobalStore | null>(null);
 

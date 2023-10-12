@@ -1,4 +1,4 @@
-import type { Store } from '../pokemons/store';
+import type { Store } from '../domains/pokemons/store';
 
 type FailureCallback = (message: string) => void;
 
