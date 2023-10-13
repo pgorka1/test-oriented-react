@@ -1,8 +1,8 @@
 import React, { createContext } from 'react';
-import { PokemonsProvider } from '../../domains/pokemons/provider';
-import { ApiPokemonRepository } from '../../domains/pokemons/repository';
-import type { GlobalStore } from '../../models/GlobalStore';
-import { MobxStore } from '../../domains/pokemons/store';
+import { PokemonsProvider, ApiPokemonRepository, MobxStore } from '../../domains/pokemons';
+import type { GlobalStore } from '../../models';
+import type { PokemonsStoreState } from '../../domains/pokemons';
+import { pokemonsStateFactory } from '../../factories/pokemonsStateFactory';
 
 export const ServicesContext = createContext<GlobalStore | null>(null);
 
@@ -11,8 +11,10 @@ interface Props {
 }
 
 export const globalServicesFactory = (): GlobalStore => ({
-    // add factories
-    pokemons: new PokemonsProvider(new ApiPokemonRepository(), new MobxStore({ pokemons: [] })),
+    pokemons: new PokemonsProvider(
+        new ApiPokemonRepository(),
+        new MobxStore<PokemonsStoreState>(pokemonsStateFactory()),
+    ),
 });
 
 export function RootSourcesProvider(props: Props): JSX.Element {

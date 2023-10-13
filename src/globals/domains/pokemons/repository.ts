@@ -1,17 +1,16 @@
-import type { Pokemon, PokemonPage } from './models/Pokemon';
-import { Repository } from '../../models/Repository';
+import { Repository, ApiError } from '../../models';
 import axios from 'axios';
-import { ApiError } from '../../models/helpers/ApiError';
+import type { Pokemon, PokemonPage } from './models';
 
 export interface PokemonsRepository {
-    fetchPokemon(pokemonName: string): Promise<Pokemon>;
+    fetchPokemon(name: string): Promise<Pokemon>;
 
     fetchPage(limit: number, offset: number): Promise<PokemonPage>;
 }
 
 export class ApiPokemonRepository extends Repository implements PokemonsRepository {
-    async fetchPokemon(pokemonName: string): Promise<Pokemon> {
-        const pokemonResponse: Response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    async fetchPokemon(name: string): Promise<Pokemon> {
+        const pokemonResponse: Response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         return (await pokemonResponse.json()) as Pokemon;
     }
 

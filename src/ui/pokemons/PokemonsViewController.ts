@@ -1,10 +1,7 @@
-import type { PokemonsProvider } from '../../globals/domains/pokemons/provider';
-import { MobxStore } from '../../globals/domains/pokemons/store';
-import { ViewController } from '../../globals/models/ViewController';
-
-interface PokemonsViewState {
-    page: number;
-}
+import type { PokemonsProvider } from '../../globals/domains/pokemons';
+import { MobxStore } from '../../globals/domains/pokemons';
+import { ViewController } from '../../globals/models';
+import type { PokemonsViewState } from './models/ViewState';
 
 export class PokemonsViewController extends ViewController<PokemonsViewState> {
     protected pokemonsProvider: PokemonsProvider;
@@ -12,8 +9,9 @@ export class PokemonsViewController extends ViewController<PokemonsViewState> {
     constructor(pokemonsProvider: PokemonsProvider, failureCb: (e: string) => void) {
         super(
             failureCb,
-            new MobxStore({
+            new MobxStore<PokemonsViewState>({
                 page: 1,
+                pokemonSelected: null,
             }),
         );
         this.pokemonsProvider = pokemonsProvider;
@@ -22,11 +20,13 @@ export class PokemonsViewController extends ViewController<PokemonsViewState> {
     async changePage(type: 'prev' | 'next') {
         const currentPage = this.state.page;
         const newPage = type === 'prev' ? currentPage - 1 : currentPage + 1;
+        if (newPage < 0) return;
         this.viewStore.setOne('page', newPage);
-        await this.fetchPage(newPage);
+        await this.pokemonsProvider.interactor.fetchPage(newPage);
     }
 
-    async fetchPage(page: number) {
-        await this.pokemonsProvider.interactor.fetchPage(page);
+    async selectPokemon(name: string) {
+        this.viewStore.setOne('pokemonSelected', name);
+        await this.pokemonsProvider.interactor.fetchPokemon(name);
     }
 }

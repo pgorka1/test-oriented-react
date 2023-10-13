@@ -1,10 +1,11 @@
 import type { PokemonsRepository } from './repository';
 import { PokemonsSelectorImpl } from './selector';
-import type { PokemonsSelector, PokemonsStore } from './selector';
-import { BaseProvider } from '../../models/BaseProvider';
+import type { PokemonsSelector } from './selector';
+import { BaseProvider } from '../../models';
 import type { PokemonsInteractor } from './interactor';
 import { PokemonsInteractorImpl } from './interactor';
-import type { Provider } from '../../models/Provider';
+import type { Provider } from '../../models';
+import type { PokemonsStore } from './models';
 
 export class PokemonsProvider<
         SE extends PokemonsSelector = PokemonsSelector,

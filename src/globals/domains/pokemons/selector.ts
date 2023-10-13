@@ -1,12 +1,11 @@
-import type { PokemonResult } from './models/Pokemon';
-import { BaseSelector } from '../../models/BaseSelector';
-import { POKEMON_LIST_PAGE_SIZE } from '../../../ui/config';
-import type { PokemonsStore } from './models/PokemonsStore';
+import { BaseSelector } from '../../models';
+import { POKEMON_LIST_PAGE_SIZE } from './config';
+import type { Pokemon, PokemonResult, PokemonsStore } from './models';
 
 export interface PokemonsSelector {
-    get all(): PokemonResult[];
+    get listByPage(): (page: number) => PokemonResult[];
 
-    get byPage(): (page: number) => PokemonResult[];
+    get detailsByName(): (name: string) => Pokemon | null;
 }
 
 export class PokemonsSelectorImpl extends BaseSelector<PokemonsStore> implements PokemonsSelector {
@@ -14,15 +13,17 @@ export class PokemonsSelectorImpl extends BaseSelector<PokemonsStore> implements
         super(pokemonStore);
     }
 
-    get all(): PokemonResult[] {
-        return this.store.state.pokemons;
-    }
-
-    get byPage(): (page: number) => PokemonResult[] {
+    get listByPage(): (page: number) => PokemonResult[] {
         return (page: number) => {
             const start = page === 1 ? 0 : (page - 1) * POKEMON_LIST_PAGE_SIZE;
-            const end = page === 1 ? POKEMON_LIST_PAGE_SIZE - 1 : (page - 1) * POKEMON_LIST_PAGE_SIZE + 9;
+            const end = page === 1 ? POKEMON_LIST_PAGE_SIZE : (page - 1) * POKEMON_LIST_PAGE_SIZE + 10;
             return this.store.state.pokemons.slice(start, end);
+        };
+    }
+
+    get detailsByName(): (name: string) => Pokemon | null {
+        return (name: string) => {
+            return this.store.state.details[name] ?? null;
         };
     }
 }

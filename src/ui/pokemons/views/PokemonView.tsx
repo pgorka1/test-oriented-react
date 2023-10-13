@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import PokemonCard from '../components/PokemonCard';
+import PokemonListItem from '../components/PokemonListItem';
 import { useRootProvider } from '../../../globals/contexts/root/useRootProvider';
 import { useNotifications } from '../../../globals/contexts/notifications/useNotifications';
 import { observer } from 'mobx-react-lite';
 import { PokemonsViewController } from '../PokemonsViewController';
+import PokemonDetails from '../components/PokemonDetails';
 
 export const PokemonView = observer((): JSX.Element => {
     const pokemonsProvider = useRootProvider('pokemons');
@@ -14,14 +15,20 @@ export const PokemonView = observer((): JSX.Element => {
     );
 
     useEffect(() => {
-        controller.fetchPage(1);
+        pokemonsProvider.interactor.fetchPage(1);
     }, []);
 
     const page = controller.state.page;
     return (
         <>
-            {pokemonsProvider.selector.byPage(page).map(pokemon => (
-                <PokemonCard name={pokemon.name ?? 'unknown'} url={pokemon.url ?? 0} />
+            <PokemonDetails details={pokemonsProvider.selector.detailsByName(controller.state.pokemonSelected ?? '')} />
+            {pokemonsProvider.selector.listByPage(page).map(pokemon => (
+                <PokemonListItem
+                    key={pokemon.name}
+                    isSelected={pokemon.name === controller.state.pokemonSelected}
+                    selectPokemon={controller.selectPokemon.bind(controller)}
+                    pokemonInfo={pokemon}
+                />
             ))}
             <button style={{ marginTop: '24px' }} onClick={() => controller.changePage('prev')}>
                 prev
