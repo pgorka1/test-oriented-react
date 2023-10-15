@@ -26,7 +26,7 @@ export class PokemonsViewController extends ViewController<PokemonsViewState> {
             await this.pokemonsProvider.interactor.fetchPage(newPage);
         } catch (e) {
             if (e instanceof ApiError) {
-                this.failureCallback(e.message);
+                return this.failureCallback(e.message);
             }
             this.failureCallback('Something went wrong with changing page');
         }
@@ -38,9 +38,9 @@ export class PokemonsViewController extends ViewController<PokemonsViewState> {
             await this.pokemonsProvider.interactor.fetchPokemon(name);
         } catch (e) {
             if (e instanceof ApiError) {
-                this.failureCallback(e.message);
+               return this.failureCallback(e.message);
             }
-            this.failureCallback('Something went wrong with changing page');
+            this.failureCallback('Something went wrong with fetching details');
         }
     }
 }

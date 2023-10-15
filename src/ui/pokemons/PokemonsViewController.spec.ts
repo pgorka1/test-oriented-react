@@ -1,12 +1,12 @@
 import { InMemoryStore } from '../../globals/mocks/store';
 import {
-    MockPokemonsRepository,
     SuccessMockPokemonsRepository,
 } from '../../globals/domains/pokemons/mocks/successRepository';
 import type { PokemonsStoreState } from '../../globals/domains/pokemons';
 import { PokemonsProvider } from '../../globals/domains/pokemons';
 import { PokemonsViewController } from './PokemonsViewController';
 import { fakePokemonResultsFactory } from '../../globals/domains/pokemons/mocks/pokemonResults';
+import { FailureMockPokemonsRepository } from '../../globals/domains/pokemons/mocks/failureRepository';
 
 const mockFailureCb = jest.fn();
 
@@ -58,7 +58,7 @@ describe('PokemonsViewController', function() {
         });
 
         it('handles api error', async function() {
-            const mockRepository = new SuccessMockPokemonsRepository();
+            const mockRepository = new FailureMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
                 details: {},
@@ -66,10 +66,7 @@ describe('PokemonsViewController', function() {
             const pokemonsProvider = new PokemonsProvider(mockRepository, mockStore);
             const pokemonsViewController = new PokemonsViewController(pokemonsProvider, mockFailureCb);
             await pokemonsViewController.changePage('next');
-            expect(pokemonsViewController.state).toStrictEqual({
-                page: 2,
-                pokemonSelected: null,
-            });
+            expect(mockFailureCb).toHaveBeenCalledWith('fetchPage error');
         });
     });
 
@@ -98,5 +95,16 @@ describe('PokemonsViewController', function() {
             );
         });
 
+        it('handles api error', async function() {
+            const mockRepository = new FailureMockPokemonsRepository();
+            const mockStore = new InMemoryStore<PokemonsStoreState>({
+                pokemons: [],
+                details: {},
+            });
+            const pokemonsProvider = new PokemonsProvider(mockRepository, mockStore);
+            const pokemonsViewController = new PokemonsViewController(pokemonsProvider, mockFailureCb);
+            await pokemonsViewController.selectPokemon('pikachu');
+            expect(mockFailureCb).toHaveBeenCalledWith('fetchPokemon error');
+        });
     });
 });
