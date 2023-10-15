@@ -1,4 +1,4 @@
-import type { PokemonsProvider } from '../domains/pokemons/provider';
+import type { PokemonsProvider } from '../domains/pokemons';
 
 export interface GlobalStore {
     pokemons: PokemonsProvider;
