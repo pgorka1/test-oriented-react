@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { AnyObject } from '../../models';
+import type { AnyObject } from './models';
 
 export interface Store<T> {
     setOne<K extends keyof Partial<T>>(key: keyof Partial<T>, value: T[K]): void;

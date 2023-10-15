@@ -1,4 +1,4 @@
-import type { Store } from '../store';
+import type { Store } from '../../../store';
 import type { PokemonResult } from './PokemonResult';
 import type { Pokemon } from './Pokemon';
 

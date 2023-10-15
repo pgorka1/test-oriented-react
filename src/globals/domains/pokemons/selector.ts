@@ -1,6 +1,6 @@
 import { BaseSelector } from '../../models';
-import { POKEMON_LIST_PAGE_SIZE } from './config';
 import type { Pokemon, PokemonResult, PokemonsStore } from './models';
+import { getRangeByPage } from './utils';
 
 export interface PokemonsSelector {
     get listByPage(): (page: number) => PokemonResult[];
@@ -15,8 +15,7 @@ export class PokemonsSelectorImpl extends BaseSelector<PokemonsStore> implements
 
     get listByPage(): (page: number) => PokemonResult[] {
         return (page: number) => {
-            const start = page === 1 ? 0 : (page - 1) * POKEMON_LIST_PAGE_SIZE;
-            const end = page === 1 ? POKEMON_LIST_PAGE_SIZE : (page - 1) * POKEMON_LIST_PAGE_SIZE + 10;
+            const { start, end } = getRangeByPage(page);
             return this.store.state.pokemons.slice(start, end);
         };
     }

@@ -2,6 +2,7 @@ import type { PokemonsRepository } from './repository';
 import { POKEMON_LIST_PAGE_SIZE } from './config';
 import { BaseInteractor } from '../../models';
 import type { PokemonsStore } from './models';
+import { getRangeByPage } from './utils';
 
 export interface PokemonsInteractor {
     fetchPokemon(name: string): Promise<void>;
@@ -34,17 +35,10 @@ export class PokemonsInteractorImpl
     }
 
     async fetchPage(page: number): Promise<void> {
-        const start = page === 1 ? 0 : (page - 1) * POKEMON_LIST_PAGE_SIZE;
-        const end = page === 1 ? POKEMON_LIST_PAGE_SIZE : (page - 1) * POKEMON_LIST_PAGE_SIZE + 10;
-
-        if (this.store.state.pokemons.slice(start, end).length === 10) return;
-        const pokemonsPage = await this.repository.fetchPage(
-            POKEMON_LIST_PAGE_SIZE,
-            page === 1 ? 0 : (page - 1) * POKEMON_LIST_PAGE_SIZE,
-        );
-
-        const numberOfElements = page === 1 ? POKEMON_LIST_PAGE_SIZE : (page - 1) * POKEMON_LIST_PAGE_SIZE + 10;
-        if (numberOfElements > this.store.state.pokemons.length)
-            this.store.setOne('pokemons', [...this.store.state.pokemons, ...pokemonsPage.results]);
+        const pokemons = this.store.state.pokemons;
+        const { start, end } = getRangeByPage(page);
+        if (pokemons.slice(start, end).length === POKEMON_LIST_PAGE_SIZE) return;
+        const pokemonsPage = await this.repository.fetchPage(POKEMON_LIST_PAGE_SIZE, start);
+        this.store.setOne('pokemons', [...pokemons, ...pokemonsPage.results]);
     }
 }

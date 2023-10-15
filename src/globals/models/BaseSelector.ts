@@ -1,7 +1,7 @@
-import type { Store } from '../domains/pokemons/store';
+import type { Store } from '../store';
 
 export class BaseSelector<T extends Store<unknown>> {
-    store: T;
+    protected store: T;
 
     constructor(store: T) {
         this.store = store;
