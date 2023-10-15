@@ -1,5 +1,5 @@
 import type { PokemonsProvider } from '../../globals/domains/pokemons';
-import { MobxStore } from '../../globals/domains/pokemons';
+import { MobxStore } from '../../globals/store';
 import { ApiError, ViewController } from '../../globals/models';
 import type { PokemonsViewState } from './models/ViewState';
 
@@ -38,7 +38,7 @@ export class PokemonsViewController extends ViewController<PokemonsViewState> {
             await this.pokemonsProvider.interactor.fetchPokemon(name);
         } catch (e) {
             if (e instanceof ApiError) {
-               return this.failureCallback(e.message);
+                return this.failureCallback(e.message);
             }
             this.failureCallback('Something went wrong with fetching details');
         }

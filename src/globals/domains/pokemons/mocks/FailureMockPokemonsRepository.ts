@@ -1,6 +1,5 @@
 import type { PokemonsRepository } from '../repository';
 import type { Pokemon, PokemonPage } from '../models';
-import { fakePokemonResultsFactory } from './pokemonResults';
 import { ApiError } from '../../../models';
 
 export class FailureMockPokemonsRepository implements PokemonsRepository {

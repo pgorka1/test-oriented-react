@@ -2,47 +2,45 @@ import { PokemonsInteractorImpl } from '../interactor';
 import { InMemoryStore } from '../../../mocks/store';
 import { fakePokemonResultsFactory } from '../mocks/pokemonResults';
 import type { PokemonsStoreState } from '../models';
-import { SuccessMockPokemonsRepository } from '../mocks/successRepository';
+import { SuccessMockPokemonsRepository } from '../mocks/SuccessPokemonsRepository';
 
-describe('pokemons/interactor', function() {
-    describe('fetchPage', function() {
-        it('should fetch page', async function() {
+describe('pokemons/interactor', function () {
+    describe('fetchPage', function () {
+        it('should fetch page', async function () {
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
                 details: {},
             });
             const interactor = new PokemonsInteractorImpl(new SuccessMockPokemonsRepository(), mockStore);
             await interactor.fetchPage(1);
-            expect(mockStore.state).toStrictEqual(
-                {
-                    'details': {},
-                    'pokemons': [
-                        {
-                            'name': '0',
-                            'url': 'url/0',
-                        },
-                        {
-                            'name': '1',
-                            'url': 'url/1',
-                        },
-                        {
-                            'name': '2',
-                            'url': 'url/2',
-                        },
-                        {
-                            'name': '3',
-                            'url': 'url/3',
-                        },
-                        {
-                            'name': '4',
-                            'url': 'url/4',
-                        },
-                    ],
-                },
-            );
+            expect(mockStore.state).toStrictEqual({
+                details: {},
+                pokemons: [
+                    {
+                        name: '0',
+                        url: 'url/0',
+                    },
+                    {
+                        name: '1',
+                        url: 'url/1',
+                    },
+                    {
+                        name: '2',
+                        url: 'url/2',
+                    },
+                    {
+                        name: '3',
+                        url: 'url/3',
+                    },
+                    {
+                        name: '4',
+                        url: 'url/4',
+                    },
+                ],
+            });
         });
 
-        it('shouldn\'t fetch page when there is already data fetched', async function() {
+        it("shouldn't fetch page when there is already data fetched", async function () {
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: fakePokemonResultsFactory(5, 10),
                 details: {},
@@ -76,8 +74,8 @@ describe('pokemons/interactor', function() {
         });
     });
 
-    describe('fetchPokemon', function() {
-        it('should fetch and store pokemon when there is no entry available', async function() {
+    describe('fetchPokemon', function () {
+        it('should fetch and store pokemon when there is no entry available', async function () {
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
                 details: {},
@@ -97,7 +95,7 @@ describe('pokemons/interactor', function() {
             });
         });
 
-        it('shouldn\'t fetch pokemon when there is already an entry available', async function() {
+        it("shouldn't fetch pokemon when there is already an entry available", async function () {
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
                 details: {

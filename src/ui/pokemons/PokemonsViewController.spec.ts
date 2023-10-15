@@ -1,18 +1,16 @@
 import { InMemoryStore } from '../../globals/mocks/store';
-import {
-    SuccessMockPokemonsRepository,
-} from '../../globals/domains/pokemons/mocks/successRepository';
+import { SuccessMockPokemonsRepository } from '../../globals/domains/pokemons/mocks/SuccessPokemonsRepository';
 import type { PokemonsStoreState } from '../../globals/domains/pokemons';
 import { PokemonsProvider } from '../../globals/domains/pokemons';
 import { PokemonsViewController } from './PokemonsViewController';
 import { fakePokemonResultsFactory } from '../../globals/domains/pokemons/mocks/pokemonResults';
-import { FailureMockPokemonsRepository } from '../../globals/domains/pokemons/mocks/failureRepository';
+import { FailureMockPokemonsRepository } from '../../globals/domains/pokemons/mocks/FailureMockPokemonsRepository';
 
 const mockFailureCb = jest.fn();
 
-describe('PokemonsViewController', function() {
-    describe('viewState', function() {
-        it('viewState is reflected correctly', function() {
+describe('PokemonsViewController', function () {
+    describe('viewState', function () {
+        it('viewState is reflected correctly', function () {
             const mockRepository = new SuccessMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
@@ -26,8 +24,8 @@ describe('PokemonsViewController', function() {
             });
         });
     });
-    describe('changePage', function() {
-        it('does not change page when triggering prev and on first page', async function() {
+    describe('changePage', function () {
+        it('does not change page when triggering prev and on first page', async function () {
             const mockRepository = new SuccessMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
@@ -42,7 +40,7 @@ describe('PokemonsViewController', function() {
             });
         });
 
-        it('changes page correctly', async function() {
+        it('changes page correctly', async function () {
             const mockRepository = new SuccessMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
@@ -57,7 +55,7 @@ describe('PokemonsViewController', function() {
             });
         });
 
-        it('handles api error', async function() {
+        it('handles api error', async function () {
             const mockRepository = new FailureMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
@@ -70,8 +68,8 @@ describe('PokemonsViewController', function() {
         });
     });
 
-    describe('selectPokemon', function() {
-        it('selects pokemon correctly', async function() {
+    describe('selectPokemon', function () {
+        it('selects pokemon correctly', async function () {
             const mockRepository = new SuccessMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: fakePokemonResultsFactory(3, 0),
@@ -87,15 +85,13 @@ describe('PokemonsViewController', function() {
             const pokemonsProvider = new PokemonsProvider(mockRepository, mockStore);
             const pokemonsViewController = new PokemonsViewController(pokemonsProvider, mockFailureCb);
             await pokemonsViewController.selectPokemon('0');
-            expect(pokemonsViewController.state).toStrictEqual(
-                {
-                    'page': 1,
-                    'pokemonSelected': '0',
-                },
-            );
+            expect(pokemonsViewController.state).toStrictEqual({
+                page: 1,
+                pokemonSelected: '0',
+            });
         });
 
-        it('handles api error', async function() {
+        it('handles api error', async function () {
             const mockRepository = new FailureMockPokemonsRepository();
             const mockStore = new InMemoryStore<PokemonsStoreState>({
                 pokemons: [],
