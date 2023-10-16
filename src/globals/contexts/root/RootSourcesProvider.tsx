@@ -4,13 +4,13 @@ import type { GlobalStore } from '../../models';
 import type { PokemonsStoreState } from '../../domains/pokemons';
 import { pokemonsStateFactory } from '../../factories/pokemonsStateFactory';
 
-export const ServicesContext = createContext<GlobalStore | null>(null);
+export const ProvidersContext = createContext<GlobalStore | null>(null);
 
 interface Props {
     children: React.ReactNode | React.ReactNode[];
 }
 
-export const globalServicesFactory = (): GlobalStore => ({
+export const globalProvidersFactory = (): GlobalStore => ({
     pokemons: new PokemonsProvider(
         new ApiPokemonRepository(),
         new MobxStore<PokemonsStoreState>(pokemonsStateFactory()),
@@ -18,5 +18,5 @@ export const globalServicesFactory = (): GlobalStore => ({
 });
 
 export function RootSourcesProvider(props: Props): JSX.Element {
-    return <ServicesContext.Provider value={globalServicesFactory()}>{props.children}</ServicesContext.Provider>;
+    return <ProvidersContext.Provider value={globalProvidersFactory()}>{props.children}</ProvidersContext.Provider>;
 }

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { ServicesContext } from './RootSourcesProvider';
+import { ProvidersContext } from './RootSourcesProvider';
 import type { GlobalStore } from '../../models';
 
 export function useRootProvider<DomainName extends keyof GlobalStore>(domainName: DomainName): GlobalStore[DomainName] {
-    const contextValue = useContext(ServicesContext);
+    const contextValue = useContext(ProvidersContext);
     if (contextValue === null) {
         throw new Error('useRootProvider must be called within <RootSourcesProvider />.');
     }
