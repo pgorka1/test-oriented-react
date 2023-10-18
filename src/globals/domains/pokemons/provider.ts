@@ -17,7 +17,7 @@ export class PokemonsProvider<
     implements Provider<SE, IN>
 {
     constructor(pokemonsRepository: R, pokemonsStore: S) {
-        // @ts-ignore-next-line (ignoring error about different subtypes constraints)
+        // @ts-ignore
         super(new PokemonsSelectorImpl(pokemonsStore), new PokemonsInteractorImpl(pokemonsRepository, pokemonsStore));
     }
 
